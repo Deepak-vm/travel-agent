@@ -1,5 +1,7 @@
 from tools.tavily import tavily_search
 from tools.flight import search_flights
+from backend import runTravelAgent
 
-res= search_flights('flight from Delhi to New York')
-print(res)
+res = runTravelAgent("Plan a trip from Delhi to Tokyo")
+print("FLIGHT RESULTS:\n", res['flight_results'])
+print("\nFINAL RESPONSE:\n", res['final_response'])
