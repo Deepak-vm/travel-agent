@@ -3,16 +3,21 @@ import React, { useState } from 'react';
 const CHIPS = [
   { label: 'Tokyo · 4d · $1500', prompt: 'Plan a 4-day trip to Tokyo with a budget of $1500 focusing on ramen and tech spots' },
   { label: 'Kyoto · 3d · $1000', prompt: 'Plan a 3-day trip to Kyoto with a budget of $1000 focusing on temples and matcha' },
-  { label: 'Paris · Weekend', prompt: 'Plan a 3-day romantic weekend trip to Paris with a budget of $1350' },
+  { label: 'Paris · Weekend',    prompt: 'Plan a 3-day romantic weekend trip to Paris with a budget of $1350' },
   { label: 'Iceland · 5d · Adventure', prompt: 'Plan a 5-day Iceland adventure roadtrip with a budget of $2000' },
 ];
 
 export default function HeroEmpty({ onSearch, isLoading }) {
   const [query, setQuery] = useState('');
 
-  const submit = (q) => {
-    if (!q.trim() || isLoading) return;
-    onSearch(q.trim());
+  const submit = () => {
+    if (!query.trim() || isLoading) return;
+    onSearch(query.trim());
+  };
+
+  // Chips ONLY fill the input — they do NOT submit
+  const fillChip = (prompt) => {
+    setQuery(prompt);
   };
 
   return (
@@ -35,15 +40,11 @@ export default function HeroEmpty({ onSearch, isLoading }) {
         <circle className="rd" cx="880" cy="60" r="4"/>
       </svg>
 
-      {/* Content */}
       <div style={{ position: 'relative', width: '100%', maxWidth: 680, padding: '0 32px', textAlign: 'center' }}>
-
-        {/* Eyebrow */}
         <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: '0.16em', color: 'var(--lime)', textTransform: 'uppercase', marginBottom: 24, animation: 'rise 0.6s ease-out 0.1s both' }}>
           LangGraph · Multi-Agent Runtime
         </p>
 
-        {/* Heading */}
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(38px, 5.5vw, 68px)', lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 18, animation: 'rise 0.7s ease-out 0.2s both' }}>
           Plan less.<br/>
           <span style={{ background: 'linear-gradient(90deg, #c6ff00, #eaffb0)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
@@ -51,26 +52,29 @@ export default function HeroEmpty({ onSearch, isLoading }) {
           </span>
         </h1>
 
-        {/* Subtitle */}
         <p style={{ fontSize: 15, color: 'var(--text-dim)', marginBottom: 36, animation: 'rise 0.7s ease-out 0.3s both' }}>
           Flight, hotel, and budget agents work your trip in parallel.
         </p>
 
-        {/* Input row */}
         <div style={{ animation: 'rise 0.7s ease-out 0.4s both' }}>
+          {/* Input row */}
           <div style={{ display: 'flex', alignItems: 'stretch', background: 'var(--bg-elevated)', border: '1px solid var(--line)', borderRadius: 8, transition: 'border-color 0.15s' }}
             onFocus={e => e.currentTarget.style.borderColor = 'var(--lime-dim)'}
             onBlur={e => e.currentTarget.style.borderColor = 'var(--line)'}>
-            <input
-              type="text"
+            <textarea
+              rows={1}
               value={query}
-              onChange={e => setQuery(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && submit(query)}
+              onChange={e => {
+                setQuery(e.target.value);
+                e.target.style.height = 'auto';
+                e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px';
+              }}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } }}
               disabled={isLoading}
-              placeholder="4 days in Tokyo, $1500, ramen and temples"
-              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13.5, padding: '14px 18px' }}
+              placeholder="4 days in Tokyo, ₹1,25,000, ramen and temples"
+              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13.5, padding: '14px 18px', resize: 'none', overflowY: 'hidden', lineHeight: 1.5 }}
             />
-            <button onClick={() => submit(query)} disabled={isLoading || !query.trim()}
+            <button onClick={submit} disabled={isLoading || !query.trim()}
               style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'transparent', border: 'none', borderLeft: '1px solid var(--line)', color: query.trim() && !isLoading ? 'var(--lime)' : 'var(--text-mute)', fontFamily: "'JetBrains Mono', monospace", fontSize: 12.5, letterSpacing: '0.03em', padding: '0 20px', cursor: query.trim() && !isLoading ? 'pointer' : 'not-allowed', whiteSpace: 'nowrap', transition: 'background 0.15s, color 0.15s' }}
               onMouseEnter={e => { if (query.trim() && !isLoading) { e.currentTarget.style.background = 'var(--lime)'; e.currentTarget.style.color = '#05070a'; }}}
               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = query.trim() && !isLoading ? 'var(--lime)' : 'var(--text-mute)'; }}>
@@ -78,10 +82,10 @@ export default function HeroEmpty({ onSearch, isLoading }) {
             </button>
           </div>
 
-          {/* Preset chips */}
+          {/* Preset chips — fill input only, do NOT submit */}
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginTop: 20 }}>
             {CHIPS.map((c, i) => (
-              <button key={i} onClick={() => submit(c.prompt)} disabled={isLoading}
+              <button key={i} onClick={() => fillChip(c.prompt)} disabled={isLoading}
                 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11.5, color: 'var(--text-dim)', border: '1px solid var(--line)', background: 'transparent', padding: '7px 13px', borderRadius: 20, cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s' }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--lime-dim)'; e.currentTarget.style.color = 'var(--text)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.color = 'var(--text-dim)'; }}>
@@ -92,19 +96,13 @@ export default function HeroEmpty({ onSearch, isLoading }) {
         </div>
       </div>
 
-      {/* Bottom label */}
+      {/* Bottom labels */}
       <div style={{ position: 'absolute', bottom: 24, left: 28, right: 28, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-mute)' }}>
-          Agent Execution Graph
-        </span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-mute)' }}>
-          Console
-        </span>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-mute)' }}>Agent Execution Graph</span>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-mute)' }}>Console</span>
       </div>
 
-      <style>{`
-        @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-      `}</style>
+      <style>{`@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </div>
   );
 }

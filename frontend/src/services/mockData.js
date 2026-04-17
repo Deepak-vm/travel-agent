@@ -91,7 +91,7 @@ export const DESTINATION_DATABASE = {
             type: "transit",
             title: "Arrival & Narita Express Transit",
             desc: "Board N'EX direct to Shinjuku Station. Grab Suica IC transit card & pocket Wi-Fi at airport terminal.",
-            cost: "$28",
+            cost: "₹28",
             location: "Narita Airport ➔ Shinjuku",
             completed: false
           },
@@ -100,7 +100,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Akihabara Electric Town & Super Potato",
             desc: "Immerse in multi-floor retro gaming shops, Gundam Cafe, and anime figures store in Chiyoda.",
-            cost: "$45",
+            cost: "₹45",
             location: "Akihabara, Chiyoda City",
             completed: false
           },
@@ -109,7 +109,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Ramen Street & Omoide Yokocho Bar Crawl",
             desc: "Savor legendary Tonkotsu ramen at Ichiran Shinjuku followed by yakitori sticks in memory lane alleyways.",
-            cost: "$37",
+            cost: "₹37",
             location: "Omoide Yokocho, Shinjuku",
             completed: false
           }
@@ -126,7 +126,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "teamLab Planets TOKYO Immersive Exhibit",
             desc: "Walk barefoot through crystal water installations and projection mapped koi ponds in Toyosu.",
-            cost: "$38",
+            cost: "₹38",
             location: "Toyosu, Koto City",
             completed: false
           },
@@ -135,7 +135,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Tsukiji Outer Market Seafood Lunch",
             desc: "Enjoy flame-torched A5 Wagyu skewers, fresh uni bowls, and tamagoyaki egg blocks.",
-            cost: "$42",
+            cost: "₹42",
             location: "Tsukiji Outer Market",
             completed: false
           },
@@ -144,7 +144,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Shibuya Sky Observation Deck",
             desc: "360-degree open-air glass rooftop panoramic views of Shibuya Scramble and Mount Fuji backdrop.",
-            cost: "$55",
+            cost: "₹55",
             location: "Shibuya Scramble Square",
             completed: false
           }
@@ -161,7 +161,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Senso-ji Temple & Nakamise Shopping Street",
             desc: "Pass under the Kaminarimon Thunder Gate, burn incense, and sample matcha dorayaki snacks.",
-            cost: "$20",
+            cost: "₹20",
             location: "Asakusa, Taito City",
             completed: false
           },
@@ -170,7 +170,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Ghibli Museum / Meiji Jingu Shrine stroll",
             desc: "Walk through tranquil evergreen forest to Meiji Shrine, followed by Harajuku Takeshita Street.",
-            cost: "$30",
+            cost: "₹30",
             location: "Yoyogi Park & Harajuku",
             completed: false
           },
@@ -179,7 +179,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Kabukicho Neon Alley & VR Zone Arcade",
             desc: "Dine at Robot Restaurant district, play high-tech VR simulators, and enjoy Japanesecraft beers.",
-            cost: "$45",
+            cost: "₹45",
             location: "Kabukicho, Shinjuku",
             completed: false
           }
@@ -196,7 +196,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Ginza Six Flagship Store & Tea Ceremony",
             desc: "Browse high-end Japanese crafts, luxury stationary at Itoya, and traditional matcha tasting.",
-            cost: "$35",
+            cost: "₹35",
             location: "Ginza, Chuo City",
             completed: false
           },
@@ -205,7 +205,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Final Tonkatsu Lunch & Airport Express",
             desc: "Crispy Kurobuta pork cutlet at Maisen followed by direct airport limousine bus transfer.",
-            cost: "$45",
+            cost: "₹45",
             location: "Tokyo Station Hub",
             completed: false
           }
@@ -276,7 +276,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Fushimi Inari Shrine Gate Trek",
             desc: "Early morning walk up Mount Inari under thousands of vibrant red torii gates.",
-            cost: "$15",
+            cost: "₹15",
             location: "Fushimi Ward, Kyoto",
             completed: false
           },
@@ -285,7 +285,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Nishiki Market Street Food Tour",
             desc: "Try octopus skewers, dango rice cakes, roasted chestnuts, and Kyoto matcha ice cream.",
-            cost: "$30",
+            cost: "₹30",
             location: "Nishiki Market",
             completed: false
           },
@@ -294,7 +294,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Gion Hanamikoji Lantern Walk & Kaiseki Dinner",
             desc: "Stroll along wooden tea houses and enjoy traditional multi-course Kyoto Kaiseki cuisine.",
-            cost: "$30",
+            cost: "₹30",
             location: "Gion District",
             completed: false
           }
@@ -311,7 +311,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Arashiyama Bamboo Grove & Tenryu-ji Garden",
             desc: "Listen to rustling bamboo stalks and explore UNESCO Zen landscape gardens.",
-            cost: "$20",
+            cost: "₹20",
             location: "Arashiyama",
             completed: false
           },
@@ -320,7 +320,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Kinkaku-ji (Golden Pavilion) Temple",
             desc: "Admire the top two floors covered in pure gold leaf reflected in Kyoko-chi pond.",
-            cost: "$25",
+            cost: "₹25",
             location: "Kita Ward",
             completed: false
           },
@@ -329,7 +329,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Pontocho Alley Riverside Dining",
             desc: "Dine on elevated wooden platforms overlooking the Kamogawa River.",
-            cost: "$40",
+            cost: "₹40",
             location: "Pontocho Alley",
             completed: false
           }
@@ -346,7 +346,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Kiyomizu-dera Temple Wooden Stage",
             desc: "Stand on the towering wooden balcony built without a single nail overlooking Kyoto.",
-            cost: "$15",
+            cost: "₹15",
             location: "Higashiyama Ward",
             completed: false
           },
@@ -355,7 +355,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Ninenzaka & Sannenzaka Preserved Streets",
             desc: "Browse pottery shops, historic Starbucks in a 100-year-old machiya house, and crafts.",
-            cost: "$25",
+            cost: "₹25",
             location: "Higashiyama",
             completed: false
           },
@@ -364,7 +364,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Matcha Dessert Tasting & Haruka Express Transfer",
             desc: "Uji matcha parfait at Tsujiri followed by return bullet train or airport transfer.",
-            cost: "$30",
+            cost: "₹30",
             location: "Kyoto Station Hub",
             completed: false
           }
@@ -435,7 +435,7 @@ export const DESTINATION_DATABASE = {
             type: "transit",
             title: "Check-in at Saint-Germain & Fresh Croissants",
             desc: "Settle into boutique room, enjoy fresh butter croissants and cafe au lait at Cafe de Flore.",
-            cost: "$25",
+            cost: "₹25",
             location: "Saint-Germain-des-Prés",
             completed: false
           },
@@ -444,7 +444,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Louvre Museum Pyramids & Tuileries Garden",
             desc: "View Mona Lisa, Winged Victory, and take a romantic walk through Tuileries gardens.",
-            cost: "$40",
+            cost: "₹40",
             location: "1st Arrondissement",
             completed: false
           },
@@ -453,7 +453,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Eiffel Tower Summit & Bateaux Mouches Seine Cruise",
             desc: "Glide down the Seine past illuminated monuments as the Eiffel Tower sparkles on the hour.",
-            cost: "$45",
+            cost: "₹45",
             location: "Champ de Mars",
             completed: false
           }
@@ -470,7 +470,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Sacré-Cœur Basilica Hilltop View",
             desc: "Climb the steps of Montmartre for sweeping views of Paris rooftops.",
-            cost: "$15",
+            cost: "₹15",
             location: "18th Arrondissement",
             completed: false
           },
@@ -479,7 +479,7 @@ export const DESTINATION_DATABASE = {
             type: "food",
             title: "Le Marais Bistro Lunch & Vintage Boutiques",
             desc: "Taste gourmet duck confit and galettes in Paris' trendiest historic neighborhood.",
-            cost: "$40",
+            cost: "₹40",
             location: "Le Marais",
             completed: false
           },
@@ -488,7 +488,7 @@ export const DESTINATION_DATABASE = {
             type: "attraction",
             title: "Opéra Garnier & Roof Terrace Champagne Bar",
             desc: "Visit the opulent Opera house followed by rooftop drinks at Galeries Lafayette.",
-            cost: "$40",
+            cost: "₹40",
             location: "9th Arrondissement",
             completed: false
           }
@@ -621,7 +621,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "transit",
             title: `Arrival at ${cityName} International & Transfer`,
             desc: "Express airport transport to central accommodation. Check in & refresh.",
-            cost: "$25",
+            cost: "₹25",
             location: `${cityName} Downtown`,
             completed: false
           },
@@ -630,7 +630,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "attraction",
             title: `Historic Center & Iconic City Landmark Tour`,
             desc: "Explore top cultural monuments, pedestrian squares, and local artisan markets.",
-            cost: "$35",
+            cost: "₹35",
             location: "Central District",
             completed: false
           },
@@ -639,7 +639,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "food",
             title: "Welcome Gourmet Dinner & Night Skyline",
             desc: "Sample signature regional dishes at top-rated local bistro followed by scenic views.",
-            cost: "$35",
+            cost: "₹35",
             location: "Culinary District",
             completed: false
           }
@@ -656,7 +656,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "attraction",
             title: "National Heritage Museum & Gardens",
             desc: "Skip-the-line guided entrance to main art exhibition and botanical gardens.",
-            cost: "$30",
+            cost: "₹30",
             location: "Cultural Quarter",
             completed: false
           },
@@ -665,7 +665,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "food",
             title: "Artisanal Food Hall & Local Tasting Tour",
             desc: "Guided food tasting featuring street food favorites and specialty coffee.",
-            cost: "$40",
+            cost: "₹40",
             location: "Market Square",
             completed: false
           },
@@ -674,7 +674,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "attraction",
             title: "Panoramic Observatory & Cocktail Lounge",
             desc: "Enjoy golden hour views of the cityscape with craft cocktail or beverage.",
-            cost: "$40",
+            cost: "₹40",
             location: "High Tower Deck",
             completed: false
           }
@@ -691,7 +691,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "attraction",
             title: "Scenic Waterfront / Mountain Nature Park",
             desc: "Morning hike or boat excursion around scenic natural reserves.",
-            cost: "$25",
+            cost: "₹25",
             location: "Outer Nature Reserve",
             completed: false
           },
@@ -700,7 +700,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "attraction",
             title: "Modern Arts District & Shopping Alleyways",
             desc: "Browse designer boutiques, indie galleries, and interactive pop-ups.",
-            cost: "$30",
+            cost: "₹30",
             location: "Arts District",
             completed: false
           },
@@ -709,7 +709,7 @@ export function generateSyntheticDestination(userQuery) {
             type: "food",
             title: "Farewell Dinner & Live Performance",
             desc: "Relaxing multi-course dinner with live jazz or traditional music.",
-            cost: "$30",
+            cost: "₹30",
             location: "Old Town Square",
             completed: false
           }

@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
+/* ── icons ── */
 const DownloadIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
     <path d="M12 3v12M12 15l-4-4M12 15l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -11,10 +14,9 @@ const CopyIcon = () => (
     <path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1" stroke="currentColor" strokeWidth="1.8"/>
   </svg>
 );
-const RefreshIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-    <path d="M4 4v5h5M20 20v-5h-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M5.5 15a8 8 0 0013.9 2.5M18.5 9A8 8 0 004.6 6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+const ChevronIcon = ({ open }) => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+    <path d={open ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -29,7 +31,29 @@ function GhostBtn({ title, children, onClick }) {
   );
 }
 
-/** User message bubble */
+/** Collapsible raw text section for agent sub-outputs */
+function RawSection({ label, text }) {
+  const [open, setOpen] = useState(false);
+  if (!text || !text.trim()) return null;
+  return (
+    <div style={{ marginTop: 10, border: '1px solid var(--line)', borderRadius: 6, overflow: 'hidden' }}>
+      <button onClick={() => setOpen(v => !v)}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 14px', background: 'var(--bg-elevated)', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{label}</span>
+        <ChevronIcon open={open}/>
+      </button>
+      {open && (
+        <div style={{ padding: '14px 16px', background: 'var(--bg)' }}>
+          <div className="md-body">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── User bubble ── */
 function UserMessage({ text }) {
   return (
     <div style={{ display: 'flex', gap: 14, marginBottom: 26 }}>
@@ -44,151 +68,90 @@ function UserMessage({ text }) {
   );
 }
 
-/** Pipeline agent step chips */
-function PipelineChips({ agents }) {
-  const steps = agents || ['Request Parser', 'Flight Agent', 'Hotel Agent', 'Weather Agent', 'Itinerary Planner'];
+/* ── Pipeline chips ── */
+function PipelineChips({ agentStep, isLoading }) {
+  const steps = ['Request Parser', 'Flight Agent', 'Hotel Agent', 'Weather Agent', 'Itinerary Planner'];
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '12px 0' }}>
-      {steps.map((s, i) => (
-        <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--text-dim)', border: '1px solid var(--line)', borderRadius: 20, padding: '4px 10px 4px 8px' }}>
-          <span style={{ color: 'var(--lime)', fontSize: 10 }}>✓</span>{s}
-        </span>
-      ))}
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '10px 0 14px' }}>
+      {steps.map((s, i) => {
+        const done   = isLoading ? i < agentStep : true;
+        const active = isLoading && i === agentStep;
+        return (
+          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: active ? 'var(--lime)' : done ? 'var(--text-dim)' : 'var(--text-mute)', border: `1px solid ${active ? 'var(--lime-dim)' : 'var(--line)'}`, borderRadius: 20, padding: '4px 10px 4px 8px', transition: 'all 0.2s' }}>
+            <span style={{ color: done ? 'var(--lime)' : 'var(--text-mute)' }}>{done ? '✓' : active ? '◉' : '○'}</span>{s}
+          </span>
+        );
+      })}
     </div>
   );
 }
 
-/** Compact stats row */
-function ResultStats({ data }) {
-  const { city, itinerary = [], budgetEstimate, weather } = data;
-  return (
-    <div style={{ display: 'flex', gap: 18, margin: '14px 0', fontFamily: "'JetBrains Mono', monospace", fontSize: 11.5 }}>
-      {[
-        { label: 'Destination', val: city, lime: false },
-        { label: 'Duration', val: `${itinerary.length || 3} days`, lime: false },
-        { label: 'Total cost', val: `$${budgetEstimate || 833}`, lime: true },
-        { label: 'Weather', val: weather?.temp || '19°C', lime: false },
-      ].map(({ label, val, lime }) => (
-        <div key={label}>
-          <span style={{ color: 'var(--text-mute)', fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 2 }}>{label}</span>
-          <b style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 600, color: lime ? 'var(--lime)' : 'var(--text)' }}>{val}</b>
-        </div>
-      ))}
-    </div>
-  );
-}
+/* ── Bot bubble ── */
+function BotMessage({ message, onExport }) {
+  const { data, isLoading, agentStep = 0, stepLogs = [] } = message;
 
-/** Flight + Hotel two-column cards */
-function ResultCards({ flights = [], hotels = [] }) {
-  const flight = flights[0];
-  const hotel = hotels[0];
-  if (!flight && !hotel) return null;
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, margin: '14px 0' }}>
-      {flight && (
-        <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--line)', borderRadius: 8, padding: '14px 16px' }}>
-          <span style={{ float: 'right', color: 'var(--lime)', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 15 }}>${flight.price}</span>
-          <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13.5, fontWeight: 600, marginBottom: 2 }}>{flight.airline}</h4>
-          <small style={{ color: 'var(--text-dim)', fontSize: 11 }}>{flight.flightNo} · {flight.from} → {flight.to} · {flight.duration} {flight.stops}</small>
-        </div>
-      )}
-      {hotel && (
-        <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--line)', borderRadius: 8, padding: '14px 16px' }}>
-          <span style={{ float: 'right', color: 'var(--lime)', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 13 }}>${hotel.pricePerNight}/n</span>
-          <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13.5, fontWeight: 600, marginBottom: 2 }}>{hotel.name}</h4>
-          <small style={{ color: 'var(--text-dim)', fontSize: 11 }}>{hotel.neighborhood} · ★ {hotel.stars}</small>
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginTop: 10 }}>
-            {(hotel.tags || []).slice(0, 3).map((t, i) => (
-              <span key={i} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'var(--text-dim)', border: '1px solid var(--line)', padding: '2px 7px', borderRadius: 10 }}>{t}</span>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-/** Single day card */
-function DayCard({ day }) {
-  return (
-    <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--line)', borderRadius: 8, overflow: 'hidden', margin: '14px 0' }}>
-      <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--line)', fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600 }}>
-        Day {day.day} — {day.title}
-      </div>
-      {(day.blocks || []).map((b, i) => (
-        <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '9px 16px', borderBottom: i < day.blocks.length - 1 ? '1px solid var(--line-soft)' : 'none', fontSize: 12.5 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, textTransform: 'uppercase', color: 'var(--text-mute)', width: 56, flexShrink: 0 }}>{b.time}</div>
-          <b style={{ fontWeight: 500, marginRight: 8, whiteSpace: 'nowrap' }}>{b.title}</b>
-          <p style={{ color: 'var(--text-dim)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b.desc}</p>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--lime)', fontSize: 11, flexShrink: 0 }}>{b.cost}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/** Bot message with all result data */
-function BotMessage({ message, onExport, onRegenerate }) {
-  const { text, data, isLoading, agentStep, stepLogs = [] } = message;
-
-  const copyText = () => {
-    if (data) navigator.clipboard.writeText(`RoamOS itinerary for ${data.city} — $${data.budgetEstimate}`);
+  const copyAll = () => {
+    const text = [data?.final_response, data?.flight_results, data?.hotel_results, data?.itinerary].filter(Boolean).join('\n\n---\n\n');
+    navigator.clipboard.writeText(text);
   };
 
   return (
     <div style={{ display: 'flex', gap: 14, marginBottom: 26 }}>
+      {/* Avatar */}
       <div style={{ width: 26, height: 26, borderRadius: 6, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 2, background: 'transparent', border: '1px solid var(--lime-dim)' }}>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
           <path d="M3 12L21 4L13 21L11 13L3 12Z" stroke="#c6ff00" strokeWidth="1.6" strokeLinejoin="round"/>
         </svg>
       </div>
+
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--lime-dim)', marginBottom: 5 }}>RoamOS</div>
 
-        {/* Loading / pipeline steps */}
-        {isLoading && (
-          <div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '12px 0' }}>
-              {['Request Parser', 'Flight Agent', 'Hotel Agent', 'Weather Agent', 'Itinerary Planner'].map((s, i) => {
-                const done = i < agentStep;
-                const active = i === agentStep;
-                return (
-                  <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: done ? 'var(--text-dim)' : active ? 'var(--lime)' : 'var(--text-mute)', border: `1px solid ${active ? 'var(--lime-dim)' : 'var(--line)'}`, borderRadius: 20, padding: '4px 10px 4px 8px' }}>
-                    <span style={{ color: done ? 'var(--lime)' : 'var(--text-mute)' }}>{done ? '✓' : active ? '◉' : '○'}</span>{s}
-                  </span>
-                );
-              })}
-            </div>
-            {stepLogs.length > 0 && (
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--text-mute)', lineHeight: 1.7 }}>
-                {stepLogs[stepLogs.length - 1]}
-              </div>
-            )}
+        {/* Pipeline steps */}
+        <PipelineChips agentStep={agentStep} isLoading={isLoading}/>
+
+        {/* Loading — show last log line */}
+        {isLoading && stepLogs.length > 0 && (
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--text-mute)', lineHeight: 1.7, marginBottom: 8 }}>
+            {stepLogs[stepLogs.length - 1]}
           </div>
         )}
 
-        {/* Completed result */}
+        {/* Completed — real backend text */}
         {!isLoading && data && (
           <>
-            <PipelineChips/>
-            <div style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--text)', marginBottom: 4 }}>{text}</div>
-            <ResultStats data={data}/>
-            <ResultCards flights={data.flights} hotels={data.hotels}/>
-            {(data.itinerary || []).map((day, i) => <DayCard key={i} day={day}/>)}
+            {/* Main LLM final response — rendered as markdown */}
+            {data.final_response && (
+              <div className="md-body" style={{ marginBottom: 14 }}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.final_response}</ReactMarkdown>
+              </div>
+            )}
+
+            {/* Thread meta */}
+            {data.thread_id && (
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9.5, color: 'var(--text-mute)', marginBottom: 12 }}>
+                thread · {data.thread_id} · {data.llm_calls || 0} LLM calls
+              </div>
+            )}
+
+            {/* Raw agent outputs — collapsible */}
+            <RawSection label="✈  Flight Results (AviationStack MCP)" text={data.flight_results}/>
+            <RawSection label="🏨  Hotel Results (Tavily MCP)" text={data.hotel_results}/>
+            <RawSection label="📅  Itinerary (Agent Output)" text={data.itinerary}/>
+
+            {/* Actions */}
+            <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+              <GhostBtn title="Export" onClick={onExport}><DownloadIcon/></GhostBtn>
+              <GhostBtn title="Copy all" onClick={copyAll}><CopyIcon/></GhostBtn>
+            </div>
           </>
         )}
 
-        {/* Plain text message (no data) */}
+        {/* Error state */}
         {!isLoading && !data && (
-          <div style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--text)' }}>{text}</div>
-        )}
-
-        {/* Action buttons */}
-        {!isLoading && (
-          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-            <GhostBtn title="Export itinerary" onClick={onExport}><DownloadIcon/></GhostBtn>
-            <GhostBtn title="Copy" onClick={copyText}><CopyIcon/></GhostBtn>
-            <GhostBtn title="Regenerate" onClick={onRegenerate}><RefreshIcon/></GhostBtn>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--red)', lineHeight: 1.7, padding: '12px 14px', border: '1px solid #3a1515', borderRadius: 6, background: '#160a0a' }}>
+            <div style={{ marginBottom: 6, fontWeight: 600 }}>✗ Pipeline Error</div>
+            <div style={{ color: '#ff7b72' }}>{message.errorMsg || 'Backend unreachable. Make sure FastAPI is running on port 8000.'}</div>
           </div>
         )}
       </div>
@@ -196,14 +159,14 @@ function BotMessage({ message, onExport, onRegenerate }) {
   );
 }
 
-export default function ChatThread({ messages, onExport, onRegenerate }) {
+export default function ChatThread({ messages, onExport }) {
   return (
     <div style={{ flex: 1, overflowY: 'auto' }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '28px 24px 40px' }}>
         {messages.map((msg, i) =>
           msg.from === 'user'
             ? <UserMessage key={i} text={msg.text}/>
-            : <BotMessage key={i} message={msg} onExport={onExport} onRegenerate={onRegenerate}/>
+            : <BotMessage key={i} message={msg} onExport={onExport}/>
         )}
       </div>
     </div>

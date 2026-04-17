@@ -31,3 +31,28 @@ html, body, #root {
 ::-webkit-scrollbar-track { background: transparent; }
 
 
+
+/* ── Markdown prose (.md-body) ── */
+.md-body { font-size: 14px; line-height: 1.75; color: var(--text); }
+.md-body p  { margin: 0 0 10px; }
+.md-body p:last-child { margin-bottom: 0; }
+.md-body h1,.md-body h2,.md-body h3,.md-body h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 18px 0 8px; color: var(--text); }
+.md-body h1 { font-size: 20px; }
+.md-body h2 { font-size: 17px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.md-body h3 { font-size: 14.5px; color: var(--lime); }
+.md-body h4 { font-size: 13.5px; }
+.md-body ul,.md-body ol { padding-left: 20px; margin: 6px 0 10px; }
+.md-body li { margin-bottom: 4px; }
+.md-body strong { font-weight: 600; color: var(--text); }
+.md-body em { color: var(--text-dim); font-style: italic; }
+.md-body code { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; background: var(--bg-elevated); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: var(--lime); }
+.md-body pre { background: var(--bg-elevated); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; margin: 10px 0; }
+.md-body pre code { background: none; border: none; padding: 0; color: var(--text-dim); }
+.md-body blockquote { border-left: 3px solid var(--lime-dim); padding-left: 12px; margin: 10px 0; color: var(--text-dim); font-style: italic; }
+.md-body hr { border: none; border-top: 1px solid var(--line); margin: 14px 0; }
+.md-body a { color: var(--lime-dim); text-decoration: underline; }
+.md-body a:hover { color: var(--lime); }
+.md-body table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; }
+.md-body th { background: var(--bg-elevated); border: 1px solid var(--line); padding: 7px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }
+.md-body td { border: 1px solid var(--line-soft); padding: 7px 10px; color: var(--text); vertical-align: top; line-height: 1.5; }
+.md-body tr:nth-child(even) td { background: var(--bg-elevated); }
